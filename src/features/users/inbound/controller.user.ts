@@ -17,18 +17,20 @@ export function UserController(userService: UserService) {
         if (updatedUser) {
             res.status(200).json(updatedUser);
         } else {
-            res.status(404).json({ message: "User not found" });
+            res.status(404).json({ message: "Utilisateur introuvable" });
         }
     });
 
     router.delete("/users/:id", async (req: Request, res: Response) => {
-        const id = req.params.id;
+        const id = req.params.id as string;
+        if (!id) return res.status(400).json({ message: "Missing id" });
         const deleted = await userService.deleteUser(id);   
         if (deleted) {
-            res.status(200).json({ message: "User deleted successfully" });
+            res.status(200).json({ message: "Utilisateur supprimé avec succès" });
         } else {
-            res.status(404).json({ message: "User not found" });
+            res.status(404).json({ message: "Utilisateur introuvable" });
         }
     });
-    
+
+    return router;
 }

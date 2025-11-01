@@ -40,6 +40,6 @@ export class InMemoryUserRepository implements UserRepository {
         for (const user of this.store.values()) {
             if (user.email === email) return user;
         }
-        throw new Error(`User with email "${email}" not found`);
+    throw new Error(`Utilisateur avec l'email "${email}" introuvable`);
     }
 }
