@@ -6,15 +6,21 @@ import { RealEstateController } from "./src/features/realEstates/inbound/control
 import { RealEstateService } from "./src/features/realEstates/domain/service.realEstate.js";
 import { InMemoryRealEstateRepository } from "./src/features/realEstates/outbound/adapter.realEstate.js";
 
+/**
+ * Point d'entrée de l'application.
+ *
+ * Ce fichier crée une instance Express minimaliste et branche les controllers
+ * pour les users et les realestates. En dev on peut exécuter directement `bun index.ts`.
+ */
 const app = express();
 app.use(express.json());
 
-// Users wiring (example)
+// --- Users wiring (exemple d'injection de dépendances simple)
 const userRepo = new InMemoryUserRepository();
 const userService = new UserService(userRepo);
 app.use("/api", UserController(userService));
 
-// RealEstates wiring
+// --- RealEstates wiring
 const reRepo = new InMemoryRealEstateRepository();
 const reService = new RealEstateService(reRepo);
 app.use("/api", RealEstateController(reService));
